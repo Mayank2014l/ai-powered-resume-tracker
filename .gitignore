@@ -39,6 +39,9 @@ prisma/dev.db
 # vercel
 .vercel
 
+# netlify
+.netlify
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
