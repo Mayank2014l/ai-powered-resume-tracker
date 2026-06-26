@@ -195,7 +195,7 @@ export default function SandboxPage() {
                   cy="40"
                   r="34"
                   strokeWidth="6"
-                  stroke={theme => "rgba(229,231,235,0.3)"}
+                  stroke="currentColor"
                   fill="transparent"
                   className="stroke-zinc-200 dark:stroke-zinc-800"
                 />
