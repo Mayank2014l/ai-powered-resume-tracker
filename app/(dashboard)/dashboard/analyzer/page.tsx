@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useUser } from "@/hooks/use-user";
 import { useAnalyses } from "@/hooks/use-analyses";
-import { UploadDropzone } from "@/lib/uploadthing";
+import { CustomUploader } from "@/components/custom-uploader";
 import { 
   Sparkles, FileText, UploadCloud, Globe, Cpu, 
   CheckCircle2, AlertTriangle, ArrowRight, FileCheck, 
@@ -155,77 +155,16 @@ export default function ResumeAnalyzerPage() {
               </div>
             )}
 
-            {/* Uploadthing dropzone container */}
+            {/* Custom uploader container */}
             <div className="space-y-2">
-              <label className="text-3xs font-semibold text-zinc-500 uppercase tracking-wider block">Upload New Resume (PDF / DOCX)</label>
-              <div className="rounded-lg border-2 border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/40 p-4 transition-all hover:bg-zinc-50 dark:hover:bg-zinc-950/60 space-y-4">
-                <UploadDropzone
-                  endpoint="resumeUploader"
-                  onClientUploadComplete={async (res: any) => {
-                    if (res && res[0]) {
-                      toast.success("File uploaded successfully! Processing text extraction...");
-                      try {
-                        const dbRes = await fetch("/api/resumes/upload", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({
-                            filename: res[0].name,
-                            fileUrl: res[0].url,
-                          }),
-                        });
-                        if (dbRes.ok) {
-                          const newResume = await dbRes.json();
-                          setResumes(prev => [newResume, ...prev]);
-                          setSelectedResumeId(newResume.id);
-                          toast.success("Resume processed and saved!");
-                        } else {
-                          toast.error("Failed to parse resume content.");
-                        }
-                      } catch (e) {
-                        toast.error("Error saving resume record.");
-                      }
-                    }
-                  }}
-                  onUploadError={(error: Error) => {
-                    toast.error(`Upload error: ${error.message}`);
-                  }}
-                  className="ut-label:text-xs ut-button:bg-indigo-600 ut-button:text-white ut-button:text-xs ut-button:py-1.5 ut-button:rounded-md ut-allowed-content:text-4xs"
-                />
-
-                {/* Local Sandbox simulation option */}
-                <div className="pt-3 border-t border-zinc-200 dark:border-zinc-850 text-center">
-                  <span className="text-4xs text-zinc-400 block mb-2 font-medium">No Uploadthing API Keys?</span>
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      const toastId = toast.loading("Simulating local file parse...");
-                      try {
-                        const dbRes = await fetch("/api/resumes/upload", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({
-                            filename: "Frontend_Developer_Resume.pdf",
-                            fileUrl: "https://utfs.io/f/mock-resume-url.pdf",
-                          }),
-                        });
-                        if (dbRes.ok) {
-                          const newResume = await dbRes.json();
-                          setResumes(prev => [newResume, ...prev]);
-                          setSelectedResumeId(newResume.id);
-                          toast.success("Sandbox mock resume upload successful!", { id: toastId });
-                        } else {
-                          toast.error("Failed to simulate resume parsing.", { id: toastId });
-                        }
-                      } catch (e) {
-                        toast.error("Simulated upload error.", { id: toastId });
-                      }
-                    }}
-                    className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-indigo-600/10 hover:bg-indigo-600/20 dark:bg-indigo-500/5 dark:hover:bg-indigo-500/10 px-3.5 py-2 text-3xs font-semibold text-indigo-650 dark:text-indigo-400 transition-colors shadow-sm"
-                  >
-                    Simulate Mock Resume Upload
-                  </button>
-                </div>
-              </div>
+              <label className="text-3xs font-semibold text-zinc-500 uppercase tracking-wider block">Upload New Resume (PDF / TXT)</label>
+              <CustomUploader
+                onUploadComplete={(newResume) => {
+                  setResumes(prev => [newResume, ...prev]);
+                  setSelectedResumeId(newResume.id);
+                  toast.success(`Resume uploaded and parsed: ${newResume.filename}`);
+                }}
+              />
             </div>
           </div>
         </div>

@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { UploadCloud, Loader2, ShieldCheck, AlertTriangle, CheckCircle2, XCircle, Info, FileText, ChevronRight, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
-import { UploadDropzone } from "@/lib/uploadthing";
+import { CustomUploader } from "@/components/custom-uploader";
+import { useSearchParams } from "next/navigation";
 
 interface ATSResult {
   detectedName: string;
@@ -43,16 +44,23 @@ export default function ResumeCheckPage() {
   const [resumesLoading, setResumesLoading] = useState(true);
   const [result, setResult] = useState<ATSResult | null>(null);
 
+  const searchParams = useSearchParams();
+  const queryResumeId = searchParams.get("resumeId");
+
   useEffect(() => {
     fetch("/api/resumes")
       .then(r => r.json())
       .then(data => {
         setResumes(data);
-        if (data.length > 0) setSelectedId(data[0].id);
+        if (queryResumeId && data.some((r: any) => r.id === queryResumeId)) {
+          setSelectedId(queryResumeId);
+        } else if (data.length > 0) {
+          setSelectedId(data[0].id);
+        }
       })
       .catch(() => toast.error("Failed to load resumes"))
       .finally(() => setResumesLoading(false));
-  }, []);
+  }, [queryResumeId]);
 
   const handleCheck = async () => {
     if (!selectedId) { toast.error("Please select or upload a resume first"); return; }
@@ -130,51 +138,14 @@ export default function ResumeCheckPage() {
 
           <div className="space-y-2">
             <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider block">Upload New</label>
-            <div className="rounded-lg border-2 border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/40 p-3">
-              <UploadDropzone
-                endpoint="resumeUploader"
-                onClientUploadComplete={async (res: any) => {
-                  if (res?.[0]) {
-                    try {
-                      const dbRes = await fetch("/api/resumes/upload", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ filename: res[0].name, fileUrl: res[0].url }),
-                      });
-                      if (dbRes.ok) {
-                        const newResume = await dbRes.json();
-                        setResumes(prev => [newResume, ...prev]);
-                        setSelectedId(newResume.id);
-                        toast.success(`Resume uploaded: ${res[0].name}`);
-                      }
-                    } catch { toast.error("Failed to save resume"); }
-                  }
-                }}
-                onUploadError={(e: Error) => toast.error(e.message)}
-                className="ut-label:text-xs ut-button:bg-indigo-600 ut-button:text-white ut-button:text-xs ut-button:py-1.5 ut-button:rounded-md ut-allowed-content:text-[10px]"
-              />
-            </div>
-
-            {/* Simulate upload for demo */}
-            <button
-              onClick={async () => {
-                const names = ["Rahul_Sharma_Resume.pdf", "Priya_Singh_CV.pdf", "Arjun_Verma_Resume.pdf"];
-                const fn = names[Math.floor(Math.random() * names.length)];
-                const r = await fetch("/api/resumes/upload", {
-                  method: "POST", headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ filename: fn, fileUrl: "https://utfs.io/f/mock.pdf" }),
-                });
-                if (r.ok) {
-                  const nr = await r.json();
-                  setResumes(prev => [nr, ...prev]);
-                  setSelectedId(nr.id);
-                  toast.success(`Loaded demo resume: ${fn}`);
-                }
+            <CustomUploader
+              onUploadComplete={(newResume) => {
+                setResumes(prev => [newResume, ...prev]);
+                setSelectedId(newResume.id);
+                setResult(null); // Clear previous results
+                toast.success(`Resume uploaded and parsed: ${newResume.filename}`);
               }}
-              className="w-full text-center text-xs text-indigo-500 hover:text-indigo-400 py-1 transition-colors"
-            >
-              Load Demo Resume →
-            </button>
+            />
           </div>
         </div>
 

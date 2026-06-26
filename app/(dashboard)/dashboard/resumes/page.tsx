@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { 
-  FileCheck, Trash2, Download, Play, Plus, X, 
+  FileCheck, Trash2, Download, Play, Plus, X, Eye,
   Sparkles, Layers, Award, Calendar, Loader2, ArrowRight
 } from "lucide-react";
-import { UploadDropzone } from "@/lib/uploadthing";
+import { CustomUploader } from "@/components/custom-uploader";
 import { toast } from "sonner";
 import { Resume } from "@/types";
 
@@ -16,6 +16,7 @@ export default function ResumeManagerPage() {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedForComparison, setSelectedForComparison] = useState<string[]>([]);
   const [showComparisonModal, setShowComparisonModal] = useState(false);
+  const [selectedResumeForView, setSelectedResumeForView] = useState<any | null>(null);
 
   const fetchResumes = async () => {
     setLoading(true);
@@ -219,8 +220,16 @@ export default function ResumeManagerPage() {
 
                   {/* Card actions */}
                   <div className="flex gap-2">
+                    <button
+                      onClick={() => setSelectedResumeForView(resume)}
+                      className="rounded border border-zinc-200 bg-white p-1.5 text-zinc-600 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-450 dark:hover:text-zinc-50 shadow-sm"
+                      title="View / Open Resume"
+                    >
+                      <Eye className="h-3.5 w-3.5" />
+                    </button>
                     <a
                       href={resume.fileUrl}
+                      download={resume.filename}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="rounded border border-zinc-200 bg-white p-1.5 text-zinc-600 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-450 dark:hover:text-zinc-50 shadow-sm"
@@ -257,72 +266,74 @@ export default function ResumeManagerPage() {
               </button>
             </div>
 
-            <div className="rounded-lg border-2 border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/40 p-6 space-y-4">
-              <UploadDropzone
-                endpoint="resumeUploader"
-                onClientUploadComplete={async (res) => {
-                  if (res && res[0]) {
-                    toast.success("Resume uploaded! Processing text...");
-                    try {
-                      const dbRes = await fetch("/api/resumes/upload", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          filename: res[0].name,
-                          fileUrl: res[0].url,
-                        }),
-                      });
-                      if (dbRes.ok) {
-                        const newResume = await dbRes.json();
-                        setResumes(prev => [newResume, ...prev]);
-                        toast.success("Resume saved successfully!");
-                        setShowUploadModal(false);
-                      } else {
-                        toast.error("Failed to parse text from file.");
-                      }
-                    } catch (e) {
-                      toast.error("Error storing uploaded resume.");
-                    }
-                  }
+            <div className="p-1">
+              <CustomUploader
+                onUploadComplete={(newResume) => {
+                  setResumes(prev => [newResume, ...prev]);
+                  setShowUploadModal(false);
                 }}
-                onUploadError={(error: Error) => {
-                  toast.error(`Upload error: ${error.message}`);
-                }}
-                className="ut-label:text-xs ut-button:bg-indigo-600 ut-button:text-white ut-button:text-xs ut-button:py-1.5 ut-button:rounded-md ut-allowed-content:text-4xs"
               />
+            </div>
+          </div>
+        </div>
+      )}
 
-              {/* Local Sandbox simulation option */}
-              <div className="pt-3 border-t border-zinc-200 dark:border-zinc-850 text-center">
-                <span className="text-4xs text-zinc-400 block mb-2 font-medium">No Uploadthing API Keys?</span>
-                <button
-                  type="button"
-                  onClick={async () => {
-                    const toastId = toast.loading("Simulating local file parse...");
-                    try {
-                      const dbRes = await fetch("/api/resumes/upload", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          filename: "Backend_Developer_Resume.pdf",
-                          fileUrl: "https://utfs.io/f/mock-resume-url.pdf",
-                        }),
-                      });
-                      if (dbRes.ok) {
-                        const newResume = await dbRes.json();
-                        setResumes(prev => [newResume, ...prev]);
-                        toast.success("Sandbox mock resume upload successful!", { id: toastId });
-                        setShowUploadModal(false);
-                      } else {
-                        toast.error("Failed to simulate resume parsing.", { id: toastId });
-                      }
-                    } catch (e) {
-                      toast.error("Simulated upload error.", { id: toastId });
-                    }
-                  }}
-                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-indigo-600/10 hover:bg-indigo-600/20 dark:bg-indigo-500/5 dark:hover:bg-indigo-500/10 px-3.5 py-2 text-3xs font-semibold text-indigo-650 dark:text-indigo-400 transition-colors shadow-sm"
+      {/* VIEW RESUME MODAL */}
+      {selectedResumeForView && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm">
+          <div className="w-full max-w-3xl rounded-xl border border-zinc-200 bg-white p-6 shadow-2xl dark:border-zinc-800 dark:bg-zinc-900 animate-in fade-in zoom-in-95 duration-150 flex flex-col max-h-[85vh]">
+            <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-4 shrink-0">
+              <div>
+                <h2 className="text-sm font-bold text-zinc-900 dark:text-white truncate max-w-md">
+                  {selectedResumeForView.filename}
+                </h2>
+                <p className="text-3xs text-zinc-400 dark:text-zinc-500 mt-0.5">
+                  Uploaded on {new Date(selectedResumeForView.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
+                </p>
+              </div>
+              <button 
+                onClick={() => setSelectedResumeForView(null)}
+                className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-850"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Extracted Text Content */}
+            <div className="flex-1 overflow-y-auto bg-zinc-50 dark:bg-zinc-950/45 p-5 rounded-lg border border-zinc-150 dark:border-zinc-850 text-3xs font-mono whitespace-pre-wrap text-zinc-700 dark:text-zinc-300 select-text leading-relaxed">
+              {selectedResumeForView.extractedText}
+            </div>
+
+            {/* Actions */}
+            <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
+              <span className="text-4xs text-zinc-450 dark:text-zinc-400 font-semibold uppercase tracking-wider">
+                {selectedResumeForView.extractedText.split(/\s+/).length} words parsed
+              </span>
+
+              <div className="flex flex-wrap gap-2 justify-end w-full sm:w-auto">
+                <a
+                  href={selectedResumeForView.fileUrl}
+                  download={selectedResumeForView.filename}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-lg border border-zinc-200 bg-white px-3 py-2 text-3xs font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900 transition-colors shadow-sm"
                 >
-                  Simulate Mock Resume Upload
-                </button>
+                  <Download className="mr-1.5 h-3.5 w-3.5" /> Download Original PDF
+                </a>
+
+                <Link
+                  href={`/dashboard/resume-check?resumeId=${selectedResumeForView.id}`}
+                  className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-2 text-3xs font-semibold text-white hover:bg-emerald-500 transition-colors shadow-sm"
+                >
+                  <FileCheck className="mr-1.5 h-3.5 w-3.5" /> Check ATS Score
+                </Link>
+
+                <Link
+                  href={`/dashboard/analyzer?resumeId=${selectedResumeForView.id}`}
+                  className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-3xs font-semibold text-white hover:bg-indigo-500 transition-colors shadow-sm"
+                >
+                  <Play className="mr-1.5 h-3 w-3 fill-current" /> Analyze Match
+                </Link>
               </div>
             </div>
           </div>

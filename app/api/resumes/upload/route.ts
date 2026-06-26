@@ -95,13 +95,31 @@ export async function POST(req: Request) {
 
     const { filename, fileUrl, extractedText: providedText } = parsed.data;
 
-    // Extract actual candidate name from filename
-    const candidateName = extractNameFromFilename(filename);
-
     // Use provided text if available, otherwise generate realistic text based on the filename
     const extractedText = providedText && providedText.length > 50
       ? providedText
-      : generateExtractedText(candidateName, filename);
+      : generateExtractedText(extractNameFromFilename(filename), filename);
+
+    // Try to extract candidate name from the text, otherwise fallback to filename
+    let candidateName = "";
+    if (extractedText) {
+      // Look for NAME: John Doe, or name line at the beginning of the text
+      const nameMatch = extractedText.match(/NAME:\s*([^\n\r]+)/i) || 
+                        extractedText.match(/^([A-Z][a-zA-Z\s]+)/m);
+      if (nameMatch && nameMatch[1]) {
+        const cleanName = nameMatch[1].trim();
+        // Ensure it doesn't match common sections or headers
+        if (cleanName.length > 2 && 
+            cleanName.length < 50 && 
+            !/^(resume|cv|curriculum|vitae|summary|education|experience|skills|projects|contact|email|phone)/i.test(cleanName)) {
+          candidateName = cleanName;
+        }
+      }
+    }
+
+    if (!candidateName) {
+      candidateName = extractNameFromFilename(filename);
+    }
 
     const resume = await prisma.resume.create({
       data: {
