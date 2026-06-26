@@ -110,12 +110,16 @@ export default function ResumeAnalyzerPage() {
       {/* Header section */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 print:hidden">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
-            Resume Analyzer
+          <h1 className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-3xl flex items-center gap-3">
+            <FileSearch className="h-8 w-8 text-indigo-500" />
+            Job Match Analyzer
           </h1>
           <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-            Compare your resume alignment against target job profiles using Anthropic Claude.
+            Paste a job description and see exactly how well your resume matches — keyword gaps, score, and fixes.
           </p>
+          <a href="/dashboard/resume-check" className="mt-2 inline-flex items-center gap-1.5 text-xs text-indigo-500 hover:text-indigo-400 transition-colors">
+            <FileCheck className="h-3.5 w-3.5" /> Want to check overall resume quality? → Resume ATS Checker
+          </a>
         </div>
       </div>
 

@@ -10,7 +10,7 @@ import {
   LayoutDashboard, FileSearch, FileCode, Kanban, 
   PenTool, Briefcase, Settings, Bell, Search, Menu, X, 
   LogOut, User, CreditCard, Moon, Sun, ChevronDown, ShieldCheck,
-  Layers, MessageSquare
+  Layers, MessageSquare, ClipboardCheck
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -30,7 +30,8 @@ export default function DashboardLayout({
 
   const navigationItems = [
     { name: "Dashboard", href: "/dashboard", icon: <LayoutDashboard className="h-5 w-5" /> },
-    { name: "Resume Analyzer", href: "/dashboard/analyzer", icon: <FileSearch className="h-5 w-5" /> },
+    { name: "Resume ATS Check", href: "/dashboard/resume-check", icon: <ClipboardCheck className="h-5 w-5" /> },
+    { name: "Job Match Analyzer", href: "/dashboard/analyzer", icon: <FileSearch className="h-5 w-5" /> },
     { name: "My Resumes", href: "/dashboard/resumes", icon: <FileCode className="h-5 w-5" /> },
     { name: "Job Tracker", href: "/dashboard/tracker", icon: <Kanban className="h-5 w-5" /> },
     { name: "LinkedIn Jobs", href: "/dashboard/jobs", icon: <Briefcase className="h-5 w-5" /> },
