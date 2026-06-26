@@ -5,7 +5,7 @@ import { useUser } from "@/hooks/use-user";
 import { useAnalyses } from "@/hooks/use-analyses";
 import { CustomUploader } from "@/components/custom-uploader";
 import { 
-  Sparkles, FileText, UploadCloud, Globe, Cpu, 
+  Sparkles, FileText, UploadCloud, Globe, Cpu, FileSearch,
   CheckCircle2, AlertTriangle, ArrowRight, FileCheck, 
   Trash2, Filter, Loader2, ArrowDownToLine, Zap, ListFilter
 } from "lucide-react";

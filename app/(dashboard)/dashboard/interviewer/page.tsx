@@ -5,7 +5,7 @@ import { useUser } from "@/hooks/use-user";
 import { useRouter } from "next/navigation";
 import { 
   Sparkles, Lock, ArrowUpRight, MessageSquare, Send, 
-  Loader2, Award, ThumbsUp, AlertCircle, RefreshCw, X
+  Loader2, Award, ThumbsUp, AlertCircle, RefreshCw, X, ChevronRight
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -16,7 +16,7 @@ interface ChatMessage {
 
 export default function InterviewerPage() {
   const router = useRouter();
-  const { plan } = useUser();
+  const { plan, user } = useUser();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Access Control check
