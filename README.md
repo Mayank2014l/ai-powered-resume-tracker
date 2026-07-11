@@ -1,6 +1,6 @@
 # 🚀 ResumeIQ — AI-Powered Resume Tracker
 
-> A full-stack AI-powered career platform for intelligent resume analysis, job tracking, ATS optimization, and career assistance.
+> A full-stack AI-powered career platform for resume analysis, job tracking, ATS optimization, and intelligent career assistance.
 
 <p align="center">
   <a href="https://resumeiq-app-610.netlify.app/">
@@ -9,10 +9,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js" alt="Next.js"/>
-  <img src="https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript" alt="TypeScript"/>
-  <img src="https://img.shields.io/badge/TailwindCSS-3-38BDF8?style=for-the-badge&logo=tailwindcss" alt="Tailwind CSS"/>
-  <img src="https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma" alt="Prisma"/>
+  <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js"/>
+  <img src="https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript"/>
+  <img src="https://img.shields.io/badge/TailwindCSS-3-38BDF8?style=for-the-badge&logo=tailwindcss"/>
+  <img src="https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma"/>
 </p>
 
 ---
@@ -21,7 +21,7 @@
 
 **ResumeIQ** is a full-stack AI-powered career platform designed to simplify the job search workflow.
 
-The application combines resume analysis, ATS optimization, job application tracking, cover letter generation, and interview preparation into a unified career dashboard.
+The application combines **resume analysis, ATS optimization, job application tracking, cover letter generation, and interview preparation** into a unified career dashboard.
 
 🌐 **Live Application:** https://resumeiq-app-610.netlify.app/
 
@@ -33,13 +33,97 @@ The application combines resume analysis, ATS optimization, job application trac
 |---|---|
 | 🤖 **AI Resume Analyzer** | Analyze resumes against job descriptions using AI |
 | 📋 **Kanban Job Tracker** | Drag-and-drop application tracking across hiring stages |
-| ✉️ **AI Cover Letters** | Generate personalized cover letters based on job roles |
-| 💼 **Job Suggestions** | Surface relevant opportunities based on profile information |
+| ✉️ **AI Cover Letters** | Generate personalized cover letters |
+| 💼 **Job Suggestions** | Surface relevant career opportunities |
 | 🧪 **ATS Sandbox** | Identify keyword gaps and improve ATS compatibility |
-| 🎤 **AI Interview Coach** | Practice interview questions with AI-powered feedback |
-| 💳 **Billing Workflow** | Multi-method simulated payment and subscription workflow |
-| 🛡️ **Admin Dashboard** | User management, plan controls, and platform statistics |
-| 🌙 **Dark Mode** | Responsive dark and light theme support |
+| 🎤 **AI Interview Coach** | Practice interview questions with AI feedback |
+| 💳 **Billing Workflow** | Simulated subscription and payment workflow |
+| 🛡️ **Admin Dashboard** | User, plan, and platform management |
+| 🌙 **Dark Mode** | Responsive dark and light theme |
+
+---
+
+## 🏛️ System Architecture
+
+```mermaid
+flowchart TB
+
+    USER([👤 User])
+
+    NETLIFY[🌐 Netlify<br/>Hosting & Deployment]
+
+    NEXT[⚡ Next.js 14<br/>App Router]
+
+    subgraph DASHBOARD["Frontend Dashboard"]
+        RESUME[📄 Resume Analyzer]
+        ATS[🧪 ATS Sandbox]
+        JOBS[📋 Job Tracker]
+        COVER[✉️ Cover Letter]
+        INTERVIEW[🎤 Interview Coach]
+        SUGGEST[💼 Job Suggestions]
+        BILLING[💳 Billing]
+    end
+
+    API[🔌 Next.js API Layer]
+
+    subgraph SERVICES["Application Services"]
+        AUTH[🔐 NextAuth.js<br/>Authentication]
+        AI[🤖 Claude AI<br/>AI Services]
+        UPLOAD[☁️ UploadThing<br/>File Uploads]
+    end
+
+    PRISMA[🔺 Prisma ORM<br/>Data Access Layer]
+
+    subgraph DATABASE["Database Layer"]
+        POSTGRES[(🐘 PostgreSQL<br/>Production)]
+        SQLITE[(🗄️ SQLite<br/>Local Development)]
+    end
+
+    ADMIN[🛡️ Admin Dashboard]
+
+    USER --> NETLIFY
+    NETLIFY --> NEXT
+    NEXT --> DASHBOARD
+
+    DASHBOARD --> API
+
+    API --> AUTH
+    API --> AI
+    API --> UPLOAD
+
+    AUTH --> PRISMA
+    AI --> PRISMA
+    UPLOAD --> PRISMA
+
+    PRISMA --> POSTGRES
+    PRISMA --> SQLITE
+
+    ADMIN --> API
+```
+
+---
+
+## 🔄 Application Workflow
+
+```mermaid
+flowchart LR
+
+    A[👤 User Login] --> B[📊 Career Dashboard]
+
+    B --> C[📄 Upload Resume]
+    B --> D[📋 Track Applications]
+    B --> E[🧪 ATS Sandbox]
+
+    C --> F[⚙️ Resume Processing]
+    E --> G[🔍 Keyword Analysis]
+
+    F --> H[🤖 AI Analysis Layer]
+    G --> H
+
+    H --> I[📊 Resume Insights]
+    H --> J[✉️ Cover Letter]
+    H --> K[🎤 Interview Feedback]
+```
 
 ---
 
@@ -58,109 +142,33 @@ The application combines resume analysis, ATS optimization, job application trac
 
 ---
 
-## 🧠 System Architecture
-
-```text
-                         ┌─────────────────────┐
-                         │        USER         │
-                         └──────────┬──────────┘
-                                    │
-                                    ▼
-                         ┌─────────────────────┐
-                         │   NEXT.JS FRONTEND  │
-                         │  App Router + UI    │
-                         └──────────┬──────────┘
-                                    │
-             ┌──────────────────────┼──────────────────────┐
-             │                      │                      │
-             ▼                      ▼                      ▼
-   ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
-   │  AUTHENTICATION  │   │    API ROUTES    │   │   FILE UPLOADS   │
-   │   NextAuth.js    │   │   Next.js API    │   │   UploadThing    │
-   └────────┬─────────┘   └────────┬─────────┘   └────────┬─────────┘
-            │                      │                      │
-            └──────────────────────┼──────────────────────┘
-                                   │
-                      ┌────────────┴────────────┐
-                      │                         │
-                      ▼                         ▼
-            ┌──────────────────┐      ┌──────────────────┐
-            │    AI SERVICES   │      │    PRISMA ORM    │
-            │    Claude API    │      │   Data Access    │
-            └────────┬─────────┘      └────────┬─────────┘
-                     │                         │
-                     ▼                         ▼
-            ┌──────────────────┐      ┌──────────────────┐
-            │ Resume Analysis  │      │ PostgreSQL /     │
-            │ ATS Optimization │      │ SQLite           │
-            │ Cover Letters    │      │                  │
-            │ Interview Coach  │      │ Users            │
-            └──────────────────┘      │ Jobs             │
-                                      │ Resumes          │
-                                      │ Applications     │
-                                      └──────────────────┘
-```
-
----
-
-## 🔄 Application Workflow
-
-```text
-User Registration / Login
-           │
-           ▼
-      Career Dashboard
-           │
-     ┌─────┼───────────────┐
-     │     │               │
-     ▼     ▼               ▼
- Resume   Job Tracker    ATS Sandbox
- Upload
-     │                         │
-     ▼                         ▼
-Resume Processing        Keyword Analysis
-     │                         │
-     └──────────┬──────────────┘
-                │
-                ▼
-          AI Analysis Layer
-                │
-       ┌────────┼────────┐
-       │        │        │
-       ▼        ▼        ▼
-    Resume    Cover   Interview
-    Insights  Letter   Feedback
-```
-
----
-
 ## 📁 Project Structure
 
 ```text
 app/
-├── (auth)/                    # Authentication Pages
+├── (auth)/
 ├── (dashboard)/
 │   └── dashboard/
-│       ├── admin/             # Admin Dashboard
-│       ├── analyzer/          # AI Resume Analyzer
-│       ├── billing/           # Subscription & Plans
-│       ├── cover-letter/      # AI Cover Letter Generator
-│       ├── interviewer/       # AI Interview Coach
-│       ├── jobs/              # Job Suggestions
-│       ├── resumes/           # Resume Management
-│       ├── sandbox/           # ATS Sandbox
-│       ├── settings/          # User Settings
-│       └── tracker/           # Kanban Job Tracker
+│       ├── admin/
+│       ├── analyzer/
+│       ├── billing/
+│       ├── cover-letter/
+│       ├── interviewer/
+│       ├── jobs/
+│       ├── resumes/
+│       ├── sandbox/
+│       ├── settings/
+│       └── tracker/
 │
-├── api/                       # Next.js API Routes
-└── checkout/                  # Checkout Workflow
+├── api/
+└── checkout/
 
-components/                     # Reusable React Components
-hooks/                          # Custom React Hooks
-lib/                            # Auth, Prisma & AI Utilities
-prisma/                         # Database Schema
-public/                         # Static Assets
-types/                          # TypeScript Definitions
+components/
+hooks/
+lib/
+prisma/
+public/
+types/
 ```
 
 ---
@@ -172,13 +180,17 @@ types/                          # TypeScript Definitions
 - Node.js 18+
 - npm, yarn, or pnpm
 
-### Installation
+### Clone Repository
 
 ```bash
 git clone https://github.com/Mayank2014l/ai-powered-resume-tracker.git
 
 cd ai-powered-resume-tracker
+```
 
+### Install Dependencies
+
+```bash
 npm install
 ```
 
@@ -188,35 +200,18 @@ npm install
 cp .env.example .env
 ```
 
-Configure the required environment variables:
+Configure the required environment variables inside `.env`.
 
-```env
-DATABASE_URL="your-database-url"
+> ⚠️ Never commit API keys, database credentials, or production secrets.
 
-NEXTAUTH_SECRET="your-secret-here"
-
-AUTH_GOOGLE_ID="your-google-oauth-id"
-AUTH_GOOGLE_SECRET="your-google-oauth-secret"
-
-ANTHROPIC_API_KEY="your-anthropic-api-key"
-
-UPLOADTHING_SECRET="your-uploadthing-secret"
-```
-
-> ⚠️ Never commit production API keys, database credentials, secrets, or `.env` files to the repository.
-
----
-
-## 🗄️ Database Setup
+### Setup Database
 
 ```bash
 npx prisma generate
 npx prisma db push
 ```
 
----
-
-## ▶️ Run Locally
+### Run Development Server
 
 ```bash
 npm run dev
@@ -232,25 +227,9 @@ http://localhost:3000
 
 ## 🌐 Live Deployment
 
-ResumeIQ is currently deployed on **Netlify**.
+ResumeIQ is deployed on **Netlify**.
 
 🚀 **Live Demo:** https://resumeiq-app-610.netlify.app/
-
-The production deployment uses Netlify's Next.js deployment workflow.
-
----
-
-## 🎯 Project Goals
-
-ResumeIQ was built to explore and implement:
-
-- AI integration in career technology
-- Resume and ATS analysis workflows
-- Full-stack application architecture
-- Authentication and authorization
-- Database-driven dashboards
-- AI-assisted productivity tools
-- Modern SaaS-style user experiences
 
 ---
 
