@@ -2,18 +2,28 @@
 
 > A full-stack AI-powered career platform for intelligent resume analysis, job tracking, ATS optimization, and career assistance.
 
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
-[![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?logo=prisma)](https://prisma.io)
+<p align="center">
+  <a href="https://resumeiq-app-610.netlify.app/">
+    <img src="https://img.shields.io/badge/🚀_LIVE_DEMO-Visit_ResumeIQ-00C7B7?style=for-the-badge" alt="Live Demo"/>
+  </a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js" alt="Next.js"/>
+  <img src="https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/TailwindCSS-3-38BDF8?style=for-the-badge&logo=tailwindcss" alt="Tailwind CSS"/>
+  <img src="https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma" alt="Prisma"/>
+</p>
 
 ---
 
 ## 📌 Overview
 
-**ResumeIQ** is a full-stack Next.js application designed to simplify the job search process through AI-powered career tools.
+**ResumeIQ** is a full-stack AI-powered career platform designed to simplify the job search workflow.
 
-The platform combines resume analysis, ATS optimization, job application tracking, cover letter generation, and interview preparation into a unified career dashboard.
+The application combines resume analysis, ATS optimization, job application tracking, cover letter generation, and interview preparation into a unified career dashboard.
+
+🌐 **Live Application:** https://resumeiq-app-610.netlify.app/
 
 ---
 
@@ -21,13 +31,13 @@ The platform combines resume analysis, ATS optimization, job application trackin
 
 | Feature | Description |
 |---|---|
-| 🤖 **AI Resume Analyzer** | Analyze resumes against job descriptions using Claude AI |
+| 🤖 **AI Resume Analyzer** | Analyze resumes against job descriptions using AI |
 | 📋 **Kanban Job Tracker** | Drag-and-drop application tracking across hiring stages |
 | ✉️ **AI Cover Letters** | Generate personalized cover letters based on job roles |
 | 💼 **Job Suggestions** | Surface relevant opportunities based on profile information |
 | 🧪 **ATS Sandbox** | Identify keyword gaps and improve ATS compatibility |
 | 🎤 **AI Interview Coach** | Practice interview questions with AI-powered feedback |
-| 💳 **Billing Workflow** | Simulated multi-method payment and subscription workflow |
+| 💳 **Billing Workflow** | Multi-method simulated payment and subscription workflow |
 | 🛡️ **Admin Dashboard** | User management, plan controls, and platform statistics |
 | 🌙 **Dark Mode** | Responsive dark and light theme support |
 
@@ -44,7 +54,7 @@ The platform combines resume analysis, ATS optimization, job application trackin
 | **Database** | Prisma ORM, SQLite, PostgreSQL |
 | **AI Integration** | Anthropic Claude API |
 | **File Uploads** | UploadThing |
-| **Deployment** | Vercel |
+| **Deployment** | Netlify |
 
 ---
 
@@ -113,7 +123,7 @@ Resume Processing        Keyword Analysis
      └──────────┬──────────────┘
                 │
                 ▼
-          Claude AI API
+          AI Analysis Layer
                 │
        ┌────────┼────────┐
        │        │        │
@@ -128,7 +138,7 @@ Resume Processing        Keyword Analysis
 
 ```text
 app/
-├── (auth)/                    # Authentication pages
+├── (auth)/                    # Authentication Pages
 ├── (dashboard)/
 │   └── dashboard/
 │       ├── admin/             # Admin Dashboard
@@ -178,10 +188,10 @@ npm install
 cp .env.example .env
 ```
 
-Add the required environment variables:
+Configure the required environment variables:
 
 ```env
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="your-database-url"
 
 NEXTAUTH_SECRET="your-secret-here"
 
@@ -193,7 +203,7 @@ ANTHROPIC_API_KEY="your-anthropic-api-key"
 UPLOADTHING_SECRET="your-uploadthing-secret"
 ```
 
-> ⚠️ Never commit production API keys, secrets, or `.env` files to the repository.
+> ⚠️ Never commit production API keys, database credentials, secrets, or `.env` files to the repository.
 
 ---
 
@@ -212,7 +222,7 @@ npx prisma db push
 npm run dev
 ```
 
-Open the application at:
+Open:
 
 ```text
 http://localhost:3000
@@ -220,16 +230,13 @@ http://localhost:3000
 
 ---
 
-## 🌐 Deployment
+## 🌐 Live Deployment
 
-ResumeIQ can be deployed using **Vercel**.
+ResumeIQ is currently deployed on **Netlify**.
 
-For production deployments:
+🚀 **Live Demo:** https://resumeiq-app-610.netlify.app/
 
-- Configure environment variables in the deployment platform.
-- Use PostgreSQL instead of local SQLite storage.
-- Generate the Prisma client during the build process.
-- Keep all production credentials secure.
+The production deployment uses Netlify's Next.js deployment workflow.
 
 ---
 
@@ -243,6 +250,7 @@ ResumeIQ was built to explore and implement:
 - Authentication and authorization
 - Database-driven dashboards
 - AI-assisted productivity tools
+- Modern SaaS-style user experiences
 
 ---
 
