@@ -15,7 +15,7 @@ function CheckoutContent() {
   const searchParams = useSearchParams();
   
   // Payment States
-  const [method, setMethod] = useState<PaymentMethod>("upi"); // Default to UPI as requested
+  const [method, setMethod] = useState<PaymentMethod>("upi");
   const [loading, setLoading] = useState(false);
   const [currency, setCurrency] = useState<"usd" | "inr">("inr");
   
@@ -28,7 +28,7 @@ function CheckoutContent() {
 
   // UPI Inputs
   const [upiId, setUpiId] = useState("");
-  const [timerSeconds, setTimerSeconds] = useState(300); // 5 min
+  const [timerSeconds, setTimerSeconds] = useState(300);
   
   // Netbanking Inputs
   const [selectedBank, setSelectedBank] = useState("");
@@ -55,7 +55,6 @@ function CheckoutContent() {
   const handleCardNumberChange = (value: string) => {
     const formatted = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
     
-    // Simple Card Brand Identification
     if (formatted.startsWith("4")) {
       setCardBrand("visa");
     } else if (formatted.startsWith("5")) {
@@ -85,7 +84,6 @@ function CheckoutContent() {
     return v;
   };
 
-  // Trigger Mock Success redirection
   const triggerSuccess = (toastId: string | number, paymentDetails: string) => {
     setTimeout(() => {
       toast.dismiss(toastId);
@@ -164,7 +162,6 @@ function CheckoutContent() {
     setLoading(true);
     const toastId = toast.loading("Checking transaction logs for UPI ID 8076973546@nyes...");
     
-    // Play simulation of transaction confirmation
     setTimeout(() => {
       triggerSuccess(toastId, "Direct UPI QR Scan (8076973546@nyes)");
     }, 1500);
@@ -200,23 +197,22 @@ function CheckoutContent() {
     ? (currency === "usd" ? "$9.99" : "₹599")
     : (currency === "usd" ? "$4.99" : "₹299");
 
-  // Real, Scannable UPI URL matching user ID 8076973546@nyes
   const upiMerchantId = "8076973546@nyes";
   const upiAmount = plan === "ultimate"
     ? (currency === "inr" ? "599" : "10")
-    : (currency === "inr" ? "299" : "5"); // UPI works best with INR
+    : (currency === "inr" ? "299" : "5");
   const upiString = `upi://pay?pa=${upiMerchantId}&pn=ResumeIQ&am=${upiAmount}&cu=INR&tn=ResumeIQ%20${plan === "ultimate" ? "Ultimate" : "Pro"}%20Upgrade`;
   const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=${encodeURIComponent(upiString)}`;
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col md:flex-row items-stretch text-zinc-900 dark:text-zinc-50 font-sans">
+    <div className="min-h-screen bg-graphite-base flex flex-col md:flex-row items-stretch text-white font-sans">
       
       {/* Left Column: Order Summary */}
-      <div className="md:w-5/12 bg-zinc-900 text-zinc-100 p-8 md:p-16 flex flex-col justify-between border-r border-zinc-800">
+      <div className="md:w-5/12 bg-graphite-surface text-gray-200 p-8 md:p-16 flex flex-col justify-between border-r border-graphite-border">
         <div className="space-y-8">
           <button 
             onClick={() => router.push("/dashboard/billing")}
-            className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-xs font-semibold"
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs font-semibold"
           >
             <ArrowLeft className="h-4 w-4" /> Back to Dashboard
           </button>
@@ -226,19 +222,19 @@ function CheckoutContent() {
               <span className="text-xl font-bold tracking-tight text-white">ResumeIQ</span>
             </div>
             
-            <span className="text-4xs uppercase tracking-wider text-zinc-455 font-bold block">Subscribe to Pro Access</span>
+            <span className="text-4xs uppercase tracking-wider text-emerald-400 font-bold block">Subscribe to Pro Access</span>
             
             {/* Currency Switcher */}
-            <div className="flex bg-zinc-850 p-1 rounded-lg w-fit border border-zinc-700/50">
+            <div className="flex bg-graphite-base p-1 rounded-lg w-fit border border-graphite-border">
               <button 
                 onClick={() => setCurrency("inr")}
-                className={`px-3 py-1 text-5xs font-bold rounded ${currency === "inr" ? "bg-indigo-600 text-white" : "text-zinc-400"}`}
+                className={`px-3 py-1 text-5xs font-bold rounded transition-colors ${currency === "inr" ? "bg-emerald-600 text-white" : "text-gray-400"}`}
               >
                 INR (₹)
               </button>
               <button 
                 onClick={() => setCurrency("usd")}
-                className={`px-3 py-1 text-5xs font-bold rounded ${currency === "usd" ? "bg-indigo-600 text-white" : "text-zinc-400"}`}
+                className={`px-3 py-1 text-5xs font-bold rounded transition-colors ${currency === "usd" ? "bg-emerald-600 text-white" : "text-gray-400"}`}
               >
                 USD ($)
               </button>
@@ -246,34 +242,34 @@ function CheckoutContent() {
 
             <div className="flex items-baseline gap-1.5 mt-2 animate-in fade-in duration-200">
               <span className="text-4xl font-extrabold text-white">{priceAmount}</span>
-              <span className="text-xs text-zinc-400">/ month</span>
+              <span className="text-xs text-gray-400">/ month</span>
             </div>
           </div>
 
           {/* Line items list */}
-          <div className="border-t border-zinc-800 pt-6 space-y-4 text-xs">
-            <div className="flex justify-between items-center text-zinc-300">
-              <span>ResumeIQ Pro Plan (Recurring)</span>
+          <div className="border-t border-graphite-border pt-6 space-y-4 text-xs">
+            <div className="flex justify-between items-center text-gray-300">
+              <span>ResumeIQ {plan === "ultimate" ? "Ultimate" : "Pro"} Plan (Recurring)</span>
               <span className="font-semibold text-white">{priceAmount}</span>
             </div>
-            <div className="flex justify-between items-center text-zinc-400 text-2xs">
+            <div className="flex justify-between items-center text-gray-400 text-2xs">
               <span>Taxes & Gateway Processing</span>
               <span>Included</span>
             </div>
-            <div className="border-t border-zinc-800 pt-4 flex justify-between items-center text-sm font-bold text-white">
+            <div className="border-t border-graphite-border pt-4 flex justify-between items-center text-sm font-bold text-white">
               <span>Total Due Today</span>
-              <span>{priceAmount}</span>
+              <span className="text-emerald-400">{priceAmount}</span>
             </div>
           </div>
         </div>
 
         {/* Footer assurances */}
         <div className="space-y-4 pt-8 md:pt-0">
-          <div className="flex items-center gap-2 text-2xs text-zinc-400">
-            <Lock className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+          <div className="flex items-center gap-2 text-2xs text-gray-400">
+            <Lock className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
             <span>Guaranteed Safe & Secure Checkout</span>
           </div>
-          <p className="text-5xs text-zinc-500 leading-normal">
+          <p className="text-5xs text-gray-500 leading-normal">
             Your billing period begins immediately. Transaction processing is completed securely. Cancel anytime via your user portal dashboard.
           </p>
         </div>
@@ -283,20 +279,20 @@ function CheckoutContent() {
       <div className="flex-1 p-6 md:p-12 flex flex-col justify-center items-center overflow-y-auto">
         <div className="w-full max-w-lg space-y-6">
           <div>
-            <h2 className="text-lg font-bold text-zinc-950 dark:text-white">Choose Payment Method</h2>
-            <p className="text-4xs text-zinc-500 dark:text-zinc-400 mt-1">
+            <h2 className="text-lg font-bold text-white">Choose Payment Method</h2>
+            <p className="text-4xs text-gray-400 mt-1">
               Select one of our simulated checkout integrations to upgrade your subscription.
             </p>
           </div>
 
           {/* METHOD SELECTION TABS */}
-          <div className="grid grid-cols-4 gap-2 bg-zinc-100 dark:bg-zinc-900 p-1.5 rounded-xl border border-zinc-200/50 dark:border-zinc-850">
+          <div className="grid grid-cols-4 gap-2 bg-graphite-surface p-1.5 rounded-xl border border-graphite-border">
             <button
               onClick={() => setMethod("upi")}
               className={`flex flex-col items-center justify-center py-2.5 rounded-lg text-center transition-all ${
                 method === "upi"
-                  ? "bg-white dark:bg-zinc-800 text-indigo-650 dark:text-white shadow-sm border border-zinc-200/40 dark:border-zinc-700/30"
-                  : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400"
+                  ? "bg-emerald-600 text-white shadow-sm"
+                  : "text-gray-400 hover:text-white"
               }`}
             >
               <QrCode className="h-4 w-4 mb-1" />
@@ -307,8 +303,8 @@ function CheckoutContent() {
               onClick={() => setMethod("card")}
               className={`flex flex-col items-center justify-center py-2.5 rounded-lg text-center transition-all ${
                 method === "card" 
-                  ? "bg-white dark:bg-zinc-800 text-indigo-650 dark:text-white shadow-sm border border-zinc-200/40 dark:border-zinc-700/30"
-                  : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400"
+                  ? "bg-emerald-600 text-white shadow-sm"
+                  : "text-gray-400 hover:text-white"
               }`}
             >
               <CreditCard className="h-4 w-4 mb-1" />
@@ -319,8 +315,8 @@ function CheckoutContent() {
               onClick={() => setMethod("netbanking")}
               className={`flex flex-col items-center justify-center py-2.5 rounded-lg text-center transition-all ${
                 method === "netbanking"
-                  ? "bg-white dark:bg-zinc-800 text-indigo-650 dark:text-white shadow-sm border border-zinc-200/40 dark:border-zinc-700/30"
-                  : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400"
+                  ? "bg-emerald-600 text-white shadow-sm"
+                  : "text-gray-400 hover:text-white"
               }`}
             >
               <Building className="h-4 w-4 mb-1" />
@@ -331,8 +327,8 @@ function CheckoutContent() {
               onClick={() => setMethod("wallet")}
               className={`flex flex-col items-center justify-center py-2.5 rounded-lg text-center transition-all ${
                 method === "wallet"
-                  ? "bg-white dark:bg-zinc-800 text-indigo-650 dark:text-white shadow-sm border border-zinc-200/40 dark:border-zinc-700/30"
-                  : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400"
+                  ? "bg-emerald-600 text-white shadow-sm"
+                  : "text-gray-400 hover:text-white"
               }`}
             >
               <Wallet className="h-4 w-4 mb-1" />
@@ -341,17 +337,15 @@ function CheckoutContent() {
           </div>
 
           {/* DYNAMIC FORMS PANEL */}
-          <div className="bg-white dark:bg-zinc-900/40 rounded-xl border border-zinc-200 dark:border-zinc-850 p-6 min-h-[300px] flex flex-col justify-between">
+          <div className="bg-graphite-surface rounded-xl border border-graphite-border p-6 min-h-[300px] flex flex-col justify-between shadow-sm">
             <div className="text-2xs flex-grow">
               
-              {/* 1. UPI / QR Form (REAL SCANNING COMPATIBLE) */}
+              {/* 1. UPI / QR Form */}
               {method === "upi" && (
                 <div className="space-y-5 animate-in fade-in duration-150">
                   
-                  {/* Mock UPI QR Code Panel */}
-                  <div className="flex flex-col sm:flex-row gap-5 items-center p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-150 dark:border-zinc-850 shadow-sm">
-                    <div className="bg-white p-3 rounded-lg border border-zinc-200 shadow-sm shrink-0 flex items-center justify-center">
-                      {/* Real dynamic scannable QR Code */}
+                  <div className="flex flex-col sm:flex-row gap-5 items-center p-4 rounded-xl bg-graphite-base border border-graphite-border shadow-sm">
+                    <div className="bg-white p-3 rounded-lg border border-graphite-border shadow-sm shrink-0 flex items-center justify-center">
                       <img 
                         src={qrCodeImageUrl} 
                         alt="UPI Payment QR Code" 
@@ -360,23 +354,22 @@ function CheckoutContent() {
                     </div>
 
                     <div className="space-y-1.5 text-center sm:text-left flex-grow">
-                      <span className="text-3xs font-semibold text-zinc-400 block uppercase">Scan & Pay Direct</span>
-                      <strong className="text-xs font-bold text-zinc-800 dark:text-white block select-all">
+                      <span className="text-3xs font-semibold text-gray-400 block uppercase">Scan & Pay Direct</span>
+                      <strong className="text-xs font-bold text-white block select-all">
                         {upiMerchantId}
                       </strong>
-                      <span className="text-4xs text-zinc-400 leading-normal block">
-                        Scan with GPay, PhonePe, Paytm, FamPay, CRED, or BHIM. Pre-filled with amount: <strong>{priceAmount}</strong>.
+                      <span className="text-4xs text-gray-400 leading-normal block">
+                        Scan with GPay, PhonePe, Paytm, FamPay, CRED, or BHIM. Amount: <strong className="text-emerald-400">{priceAmount}</strong>.
                       </span>
-                      <span className="font-mono text-3xs font-bold text-indigo-600 dark:text-indigo-400 block mt-1">
+                      <span className="font-mono text-3xs font-bold text-emerald-400 block mt-1">
                         Expires in: {formatTime(timerSeconds)}
                       </span>
 
-                      {/* Confirm payment scanner action */}
                       <button
                         type="button"
                         onClick={handleConfirmQRTransfer}
                         disabled={loading}
-                        className="mt-3 rounded-lg bg-indigo-600 px-4 py-1.5 text-4xs font-bold text-white hover:bg-indigo-500 flex items-center justify-center gap-1.5 transition-all shadow-sm w-full sm:w-auto"
+                        className="mt-3 rounded-lg bg-emerald-600 px-4 py-1.5 text-4xs font-bold text-white hover:bg-emerald-500 flex items-center justify-center gap-1.5 transition-all shadow-md shadow-emerald-600/10 w-full sm:w-auto"
                       >
                         {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : "I've paid, Confirm payment"}
                       </button>
@@ -384,19 +377,19 @@ function CheckoutContent() {
                   </div>
 
                   <div className="relative flex py-2 items-center justify-center">
-                    <div className="flex-grow border-t border-zinc-150 dark:border-zinc-800"></div>
-                    <span className="flex-shrink mx-3 text-4xs text-zinc-400 uppercase font-semibold">Or enter custom UPI ID</span>
-                    <div className="flex-grow border-t border-zinc-150 dark:border-zinc-800"></div>
+                    <div className="flex-grow border-t border-graphite-border"></div>
+                    <span className="flex-shrink mx-3 text-4xs text-gray-400 uppercase font-semibold">Or enter custom UPI ID</span>
+                    <div className="flex-grow border-t border-graphite-border"></div>
                   </div>
 
                   <form onSubmit={handleSubmit} className="space-y-1">
-                    <label className="text-3xs font-semibold text-zinc-450 uppercase block">Enter VPA / UPI ID</label>
+                    <label className="text-3xs font-semibold text-gray-400 uppercase block">Enter VPA / UPI ID</label>
                     <input
                       type="text"
                       value={upiId}
                       onChange={(e) => setUpiId(e.target.value)}
                       placeholder="e.g. mobile@upi or username@okaxis"
-                      className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-white font-mono"
+                      className="w-full rounded-lg border border-graphite-border bg-graphite-base px-3 py-2 focus:border-emerald-500 focus:outline-none text-white font-mono"
                     />
                   </form>
                 </div>
@@ -406,19 +399,19 @@ function CheckoutContent() {
               {method === "card" && (
                 <form onSubmit={handleSubmit} className="space-y-4 animate-in fade-in duration-150">
                   <div className="space-y-1">
-                    <label className="text-3xs font-semibold text-zinc-450 uppercase block">Cardholder Name</label>
+                    <label className="text-3xs font-semibold text-gray-400 uppercase block">Cardholder Name</label>
                     <input
                       type="text"
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Jane Doe"
-                      className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-white"
+                      className="w-full rounded-lg border border-graphite-border bg-graphite-base px-3 py-2 focus:border-emerald-500 focus:outline-none text-white"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-3xs font-semibold text-zinc-450 uppercase block">Card Number</label>
+                    <label className="text-3xs font-semibold text-gray-400 uppercase block">Card Number</label>
                     <div className="relative">
                       <input
                         type="text"
@@ -427,13 +420,13 @@ function CheckoutContent() {
                         value={cardNumber}
                         onChange={(e) => handleCardNumberChange(e.target.value)}
                         placeholder="4242 4242 4242 4242"
-                        className="w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-10 pr-3 py-2 focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-white font-mono tracking-wider"
+                        className="w-full rounded-lg border border-graphite-border bg-graphite-base pl-10 pr-3 py-2 focus:border-emerald-500 focus:outline-none text-white font-mono tracking-wider"
                       />
                       <div className="absolute inset-y-0 left-3.5 flex items-center">
-                        <CreditCard className="h-4 w-4 text-zinc-400" />
+                        <CreditCard className="h-4 w-4 text-gray-400" />
                       </div>
                       {cardBrand !== "unknown" && (
-                        <span className="absolute inset-y-0 right-3.5 flex items-center text-4xs font-bold text-indigo-500 uppercase font-mono">
+                        <span className="absolute inset-y-0 right-3.5 flex items-center text-4xs font-bold text-emerald-400 uppercase font-mono">
                           {cardBrand}
                         </span>
                       )}
@@ -442,7 +435,7 @@ function CheckoutContent() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-3xs font-semibold text-zinc-450 uppercase block">Expiration Date</label>
+                      <label className="text-3xs font-semibold text-gray-400 uppercase block">Expiration Date</label>
                       <input
                         type="text"
                         required
@@ -450,12 +443,12 @@ function CheckoutContent() {
                         value={expiry}
                         onChange={(e) => setExpiry(formatExpiry(e.target.value))}
                         placeholder="MM/YY"
-                        className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-white text-center font-mono"
+                        className="w-full rounded-lg border border-graphite-border bg-graphite-base px-3 py-2 focus:border-emerald-500 focus:outline-none text-white text-center font-mono"
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-3xs font-semibold text-zinc-455 uppercase block">CVV</label>
+                      <label className="text-3xs font-semibold text-gray-400 uppercase block">CVV</label>
                       <input
                         type="password"
                         required
@@ -463,7 +456,7 @@ function CheckoutContent() {
                         value={cvv}
                         onChange={(e) => setCvv(e.target.value.replace(/[^0-9]/g, ""))}
                         placeholder="123"
-                        className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-white text-center font-mono"
+                        className="w-full rounded-lg border border-graphite-border bg-graphite-base px-3 py-2 focus:border-emerald-500 focus:outline-none text-white text-center font-mono"
                       />
                     </div>
                   </div>
@@ -473,9 +466,8 @@ function CheckoutContent() {
               {/* 3. Net Banking Form */}
               {method === "netbanking" && (
                 <div className="space-y-4 animate-in fade-in duration-150">
-                  <span className="text-3xs font-semibold text-zinc-455 uppercase block">Select your Bank</span>
+                  <span className="text-3xs font-semibold text-gray-400 uppercase block">Select your Bank</span>
                   
-                  {/* Expanded Bank Grid */}
                   <div className="grid grid-cols-2 gap-2 max-h-[220px] overflow-y-auto pr-1">
                     {popularBanks.map((bank) => (
                       <button
@@ -484,18 +476,18 @@ function CheckoutContent() {
                         onClick={() => setSelectedBank(bank.name)}
                         className={`p-2.5 rounded-lg border text-left font-semibold text-3xs transition-all flex items-center gap-2 ${
                           selectedBank === bank.name 
-                            ? "border-indigo-600 bg-indigo-550/5 text-indigo-650 dark:border-indigo-500 dark:bg-indigo-950/10 dark:text-indigo-400"
-                            : "border-zinc-200 bg-zinc-50 hover:bg-zinc-100 text-zinc-750 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-350 dark:hover:bg-zinc-900"
+                            ? "border-emerald-500 bg-emerald-500/10 text-emerald-400"
+                            : "border-graphite-border bg-graphite-base hover:bg-graphite-surfaceHover text-gray-300"
                         }`}
                       >
-                        <Building className={`h-3.5 w-3.5 shrink-0 ${selectedBank === bank.name ? "text-indigo-600 dark:text-indigo-400" : "text-zinc-400"}`} />
+                        <Building className={`h-3.5 w-3.5 shrink-0 ${selectedBank === bank.name ? "text-emerald-400" : "text-gray-400"}`} />
                         <span className="truncate">{bank.name}</span>
                       </button>
                     ))}
                   </div>
 
                   {selectedBank && (
-                    <div className="p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-lg flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-4xs">
+                    <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg flex items-center gap-2 text-emerald-400 text-4xs">
                       <Check className="h-4 w-4 shrink-0" />
                       <span>Ready to authenticate connection to secure {selectedBank} gateway.</span>
                     </div>
@@ -506,9 +498,8 @@ function CheckoutContent() {
               {/* 4. Wallet Form */}
               {method === "wallet" && (
                 <div className="space-y-4 animate-in fade-in duration-150">
-                  <span className="text-3xs font-semibold text-zinc-455 uppercase block">Select Wallet App</span>
+                  <span className="text-3xs font-semibold text-gray-400 uppercase block">Select Wallet App</span>
                   
-                  {/* Expanded Wallet Grid */}
                   <div className="grid grid-cols-3 gap-2">
                     {wallets.map((wallet) => (
                       <button
@@ -517,8 +508,8 @@ function CheckoutContent() {
                         onClick={() => setSelectedWallet(wallet.name)}
                         className={`py-2 rounded-lg border text-center text-3xs font-bold transition-all ${
                           selectedWallet === wallet.name 
-                            ? "border-indigo-600 bg-indigo-550/5 text-indigo-650 dark:border-indigo-500 dark:bg-indigo-950/10 dark:text-indigo-400 shadow-sm"
-                            : "border-zinc-200 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-350 dark:hover:bg-zinc-900"
+                            ? "border-emerald-500 bg-emerald-500/10 text-emerald-400 shadow-sm"
+                            : "border-graphite-border bg-graphite-base hover:bg-graphite-surfaceHover text-gray-300"
                         }`}
                       >
                         {wallet.name}
@@ -527,9 +518,9 @@ function CheckoutContent() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-3xs font-semibold text-zinc-450 uppercase block">Linked Mobile Number</label>
+                    <label className="text-3xs font-semibold text-gray-400 uppercase block">Linked Mobile Number</label>
                     <div className="relative">
-                      <span className="absolute inset-y-0 left-3 flex items-center text-zinc-450 font-bold">
+                      <span className="absolute inset-y-0 left-3 flex items-center text-gray-400 font-bold">
                         +91
                       </span>
                       <input
@@ -538,7 +529,7 @@ function CheckoutContent() {
                         value={mobileNumber}
                         onChange={(e) => setMobileNumber(e.target.value.replace(/[^0-9]/g, ""))}
                         placeholder="98765 43210"
-                        className="w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-10 pr-3 py-2 focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-white font-mono"
+                        className="w-full rounded-lg border border-graphite-border bg-graphite-base pl-10 pr-3 py-2 focus:border-emerald-500 focus:outline-none text-white font-mono"
                       />
                     </div>
                   </div>
@@ -547,14 +538,14 @@ function CheckoutContent() {
 
             </div>
 
-            {/* ACTION BUTTON (Universal) */}
+            {/* ACTION BUTTON */}
             <div className="mt-6">
               {method !== "upi" || upiId ? (
                 <button
                   type="button"
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="w-full inline-flex items-center justify-center rounded-lg bg-indigo-600 hover:bg-indigo-500 py-3 text-xs font-bold text-white transition-all disabled:opacity-50 hover:scale-[1.01] active:scale-[0.99] shadow-md shadow-indigo-600/10"
+                  className="w-full inline-flex items-center justify-center rounded-lg bg-emerald-600 hover:bg-emerald-500 py-3 text-xs font-bold text-white transition-all disabled:opacity-50 shadow-md shadow-emerald-600/10"
                 >
                   {loading ? (
                     <>
@@ -567,7 +558,7 @@ function CheckoutContent() {
                   )}
                 </button>
               ) : (
-                <div className="text-center text-4xs text-zinc-400">
+                <div className="text-center text-4xs text-gray-400">
                   Scan the dynamic UPI QR Code to execute direct transfer or enter custom VPA ID above.
                 </div>
               )}
@@ -576,23 +567,23 @@ function CheckoutContent() {
           </div>
 
           {/* SECURE ASSURANCE WIDGET */}
-          <div className="flex gap-2.5 items-start p-3 bg-indigo-500/5 dark:bg-indigo-950/10 border border-indigo-600/10 dark:border-indigo-500/20 rounded-xl">
-            <ShieldCheck className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
+          <div className="flex gap-2.5 items-start p-3 bg-graphite-surface border border-graphite-border rounded-xl">
+            <ShieldCheck className="h-4.5 w-4.5 text-emerald-400 shrink-0 mt-0.5" />
             <div className="space-y-0.5">
-              <span className="text-3xs font-semibold text-zinc-800 dark:text-zinc-200">Payment Routing Info</span>
-              <p className="text-4xs text-zinc-450 dark:text-zinc-400 leading-normal">
-                QR payments are generated dynamically as a localized UPI payment intent link mapping directly to <strong className="select-all">8076973546@nyes</strong>.
+              <span className="text-3xs font-semibold text-white">Payment Routing Info</span>
+              <p className="text-4xs text-gray-400 leading-normal">
+                QR payments are generated dynamically as a localized UPI payment intent link mapping directly to <strong className="select-all text-emerald-400">8076973546@nyes</strong>.
               </p>
             </div>
           </div>
 
           {/* PAYMENT SUPPORT HELPLINE */}
-          <div className="flex gap-2.5 items-start p-3 bg-amber-500/5 dark:bg-amber-955/10 border border-amber-600/15 dark:border-amber-500/20 rounded-xl">
-            <AlertCircle className="h-4.5 w-4.5 text-amber-500 shrink-0 mt-0.5" />
+          <div className="flex gap-2.5 items-start p-3 bg-amber-500/5 border border-amber-500/20 rounded-xl">
+            <AlertCircle className="h-4.5 w-4.5 text-amber-400 shrink-0 mt-0.5" />
             <div className="space-y-0.5 text-left">
-              <span className="text-3xs font-semibold text-zinc-850 dark:text-zinc-250">Payment Support</span>
-              <p className="text-4xs text-zinc-500 dark:text-zinc-400 leading-normal">
-                Agar payment hone ke baad bhi plan activate nahi hota, to payment screenshot aur transaction ID ke saath details **support@resumeiq.co** par send karein. Hum immediately check karke update kar denge.
+              <span className="text-3xs font-semibold text-amber-300">Payment Support</span>
+              <p className="text-4xs text-gray-400 leading-normal">
+                If your plan is not activated automatically after payment, send your transaction screenshot and details to <strong className="text-amber-300">support@resumeiq.co</strong> for immediate activation.
               </p>
             </div>
           </div>
@@ -607,12 +598,13 @@ function CheckoutContent() {
 export default function CheckoutPage() {
   return (
     <Suspense fallback={
-      <div className="flex h-screen flex-col items-center justify-center gap-2 bg-zinc-50 dark:bg-zinc-950">
-        <Loader2 className="h-8 w-8 animate-spin text-indigo-650" />
-        <span className="text-3xs text-zinc-400">Loading Secure checkout...</span>
+      <div className="flex h-screen flex-col items-center justify-center gap-2 bg-graphite-base">
+        <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+        <span className="text-3xs text-gray-400">Loading Secure checkout...</span>
       </div>
     }>
       <CheckoutContent />
     </Suspense>
   );
 }
+

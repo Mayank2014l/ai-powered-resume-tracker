@@ -67,18 +67,18 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 py-12 dark:bg-zinc-950 sm:px-6 lg:px-8 transition-colors duration-300">
-      <div className="w-full max-w-md space-y-8 rounded-2xl border border-zinc-200 bg-white p-8 shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="flex min-h-screen items-center justify-center bg-graphite-base px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 rounded-2xl border border-graphite-border bg-graphite-surface p-8 shadow-2xl">
         
         {/* Brand Header */}
         <div className="flex flex-col items-center justify-center text-center">
-          <Link href="/" className="text-xl font-bold tracking-tight text-indigo-600 hover:scale-[1.02] transition-all">
+          <Link href="/" className="text-xl font-bold tracking-tight text-emerald-400 hover:scale-[1.02] transition-all">
             ResumeIQ
           </Link>
-          <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+          <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-white">
             Create your account
           </h2>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-2 text-sm text-gray-400">
             Start optimizing your resumes and tracking jobs for free.
           </p>
         </div>
@@ -89,7 +89,7 @@ export default function RegisterPage() {
             <div>
               <label htmlFor="email" className="sr-only">Email address</label>
               <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-zinc-400">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                   <Mail className="h-5 w-5" />
                 </div>
                 <input
@@ -100,7 +100,7 @@ export default function RegisterPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full rounded-lg border border-zinc-200 bg-zinc-50 py-3 pl-10 pr-3 text-sm placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:bg-zinc-950 dark:text-white"
+                  className="block w-full rounded-lg border border-graphite-border bg-graphite-base py-3 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-emerald-500 focus:outline-none text-white"
                   placeholder="name@example.com"
                 />
               </div>
@@ -109,7 +109,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading || oauthLoading !== null}
-              className="flex w-full items-center justify-center rounded-lg bg-indigo-600 py-3 text-sm font-semibold text-white hover:bg-indigo-500 disabled:opacity-50 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="flex w-full items-center justify-center rounded-lg bg-emerald-600 py-3 text-sm font-semibold text-white hover:bg-emerald-500 disabled:opacity-50 transition-all duration-200 shadow-md shadow-emerald-600/10"
             >
               {loading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -123,9 +123,9 @@ export default function RegisterPage() {
 
           {/* Divider */}
           <div className="relative flex py-4 items-center justify-center">
-            <div className="flex-grow border-t border-zinc-200 dark:border-zinc-800"></div>
-            <span className="flex-shrink mx-4 text-xs text-zinc-400 uppercase font-semibold">Or sign up with</span>
-            <div className="flex-grow border-t border-zinc-200 dark:border-zinc-800"></div>
+            <div className="flex-grow border-t border-graphite-border"></div>
+            <span className="flex-shrink mx-4 text-xs text-gray-500 uppercase font-semibold">Or sign up with</span>
+            <div className="flex-grow border-t border-graphite-border"></div>
           </div>
 
           {/* Social Sign-In buttons */}
@@ -133,7 +133,7 @@ export default function RegisterPage() {
             <button
               onClick={() => handleOAuthSignIn("google")}
               disabled={loading || oauthLoading !== null}
-              className="inline-flex w-full items-center justify-center rounded-lg border border-zinc-200 bg-white py-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-900 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex w-full items-center justify-center rounded-lg border border-graphite-border bg-graphite-base py-3 text-sm font-semibold text-gray-300 hover:bg-graphite-surfaceHover disabled:opacity-50 transition-all duration-200"
             >
               {oauthLoading === "google" ? (
                 <Loader2 className="h-5 w-5 animate-spin" />
@@ -153,7 +153,7 @@ export default function RegisterPage() {
               type="button"
               onClick={() => handleOAuthSignIn("github")}
               disabled={loading || oauthLoading !== null}
-              className="inline-flex w-full items-center justify-center rounded-lg border border-zinc-200 bg-white py-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-900 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex w-full items-center justify-center rounded-lg border border-graphite-border bg-graphite-base py-3 text-sm font-semibold text-gray-300 hover:bg-graphite-surfaceHover disabled:opacity-50 transition-all duration-200"
             >
               {oauthLoading === "github" ? (
                 <Loader2 className="h-5 w-5 animate-spin" />
@@ -170,9 +170,9 @@ export default function RegisterPage() {
         </div>
 
         {/* Footer link */}
-        <div className="text-center text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="text-center text-sm text-gray-400">
           <span>Already have an account? </span>
-          <Link href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
+          <Link href="/login" className="font-semibold text-emerald-400 hover:underline">
             Sign In
           </Link>
         </div>
@@ -181,3 +181,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+

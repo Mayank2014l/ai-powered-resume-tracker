@@ -10,6 +10,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        graphite: {
+          base: "#0A0E0F",
+          surface: "#151A1C",
+          surfaceHover: "#1C2326",
+          border: "#232A2D",
+          borderHover: "#323B3F",
+        },
+        brand: {
+          emerald: "#10B981",
+          emeraldDark: "#059669",
+          emeraldLight: "#34D399",
+          teal: "#14B8A6",
+          tealDark: "#0D9488",
+          tealLight: "#2DD4BF",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

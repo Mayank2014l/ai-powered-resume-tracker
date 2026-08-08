@@ -54,7 +54,6 @@ export default function LoginPage() {
         toast.error(`Could not authenticate with ${provider}.`);
       } else {
         toast.success(`Redirecting to ${provider}...`);
-        // If developer credentials are mock, sign in credentials immediately
         signIn("credentials", {
           email: `${provider}-test-user@example.com`,
           callbackUrl: "/dashboard",
@@ -68,18 +67,18 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 py-12 dark:bg-zinc-950 sm:px-6 lg:px-8 transition-colors duration-300">
-      <div className="w-full max-w-md space-y-8 rounded-2xl border border-zinc-200 bg-white p-8 shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="flex min-h-screen items-center justify-center bg-graphite-base px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 rounded-2xl border border-graphite-border bg-graphite-surface p-8 shadow-2xl">
         
         {/* Brand Header */}
         <div className="flex flex-col items-center justify-center text-center">
-          <Link href="/" className="text-xl font-bold tracking-tight text-indigo-600 hover:scale-[1.02] transition-all">
+          <Link href="/" className="text-xl font-bold tracking-tight text-emerald-400 hover:scale-[1.02] transition-all">
             ResumeIQ
           </Link>
-          <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+          <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-white">
             Welcome back
           </h2>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-2 text-sm text-gray-400">
             Sign in to optimize your job application pipeline.
           </p>
         </div>
@@ -90,7 +89,7 @@ export default function LoginPage() {
             <div>
               <label htmlFor="email" className="sr-only">Email address</label>
               <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-zinc-400">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                   <Mail className="h-5 w-5" />
                 </div>
                 <input
@@ -101,7 +100,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full rounded-lg border border-zinc-200 bg-zinc-50 py-3 pl-10 pr-3 text-sm placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:bg-zinc-950 dark:text-white"
+                  className="block w-full rounded-lg border border-graphite-border bg-graphite-base py-3 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-emerald-500 focus:outline-none text-white"
                   placeholder="name@example.com"
                 />
               </div>
@@ -110,7 +109,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading || oauthLoading !== null}
-              className="flex w-full items-center justify-center rounded-lg bg-indigo-600 py-3 text-sm font-semibold text-white hover:bg-indigo-500 disabled:opacity-50 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="flex w-full items-center justify-center rounded-lg bg-emerald-600 py-3 text-sm font-semibold text-white hover:bg-emerald-500 disabled:opacity-50 transition-all duration-200 shadow-md shadow-emerald-600/10"
             >
               {loading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -124,9 +123,9 @@ export default function LoginPage() {
 
           {/* Divider */}
           <div className="relative flex py-4 items-center justify-center">
-            <div className="flex-grow border-t border-zinc-200 dark:border-zinc-800"></div>
-            <span className="flex-shrink mx-4 text-xs text-zinc-400 uppercase font-semibold">Or continue with</span>
-            <div className="flex-grow border-t border-zinc-200 dark:border-zinc-800"></div>
+            <div className="flex-grow border-t border-graphite-border"></div>
+            <span className="flex-shrink mx-4 text-xs text-gray-500 uppercase font-semibold">Or continue with</span>
+            <div className="flex-grow border-t border-graphite-border"></div>
           </div>
 
           {/* Social Sign-In buttons */}
@@ -134,13 +133,12 @@ export default function LoginPage() {
             <button
               onClick={() => handleOAuthSignIn("google")}
               disabled={loading || oauthLoading !== null}
-              className="inline-flex w-full items-center justify-center rounded-lg border border-zinc-200 bg-white py-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-900 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex w-full items-center justify-center rounded-lg border border-graphite-border bg-graphite-base py-3 text-sm font-semibold text-gray-300 hover:bg-graphite-surfaceHover disabled:opacity-50 transition-all duration-200"
             >
               {oauthLoading === "google" ? (
                 <Loader2 className="h-5 w-5 animate-spin" />
               ) : (
                 <div className="flex items-center gap-2">
-                  {/* Google SVG Icon */}
                   <svg className="h-5 w-5" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -156,7 +154,7 @@ export default function LoginPage() {
               type="button"
               onClick={() => handleOAuthSignIn("github")}
               disabled={loading || oauthLoading !== null}
-              className="inline-flex w-full items-center justify-center rounded-lg border border-zinc-200 bg-white py-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-900 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex w-full items-center justify-center rounded-lg border border-graphite-border bg-graphite-base py-3 text-sm font-semibold text-gray-300 hover:bg-graphite-surfaceHover disabled:opacity-50 transition-all duration-200"
             >
               {oauthLoading === "github" ? (
                 <Loader2 className="h-5 w-5 animate-spin" />
@@ -168,13 +166,14 @@ export default function LoginPage() {
                   <span>GitHub</span>
                 </div>
               )}
-            </button>          </div>
+            </button>
+          </div>
         </div>
 
         {/* Footer link */}
-        <div className="text-center text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="text-center text-sm text-gray-400">
           <span>New to ResumeIQ? </span>
-          <Link href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
+          <Link href="/register" className="font-semibold text-emerald-400 hover:underline">
             Create an account free
           </Link>
         </div>
@@ -183,3 +182,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

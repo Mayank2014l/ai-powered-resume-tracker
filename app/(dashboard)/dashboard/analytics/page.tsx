@@ -14,7 +14,7 @@ import { toast } from "sonner";
 export default function AnalyticsPage() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [dateRange, setDateRange] = useState("30"); // 7, 30, 90
+  const [dateRange, setDateRange] = useState("30");
 
   useEffect(() => {
     async function fetchAnalytics() {
@@ -39,13 +39,13 @@ export default function AnalyticsPage() {
   if (loading || !data) {
     return (
       <div className="flex h-[70vh] flex-col items-center justify-center gap-3">
-        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
-        <span className="text-2xs text-zinc-550 dark:text-zinc-400">Loading analytics metrics...</span>
+        <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+        <span className="text-2xs text-gray-400">Loading analytics metrics...</span>
       </div>
     );
   }
 
-  const COLORS = ["#a1a1aa", "#6366f1", "#eab308", "#22c55e", "#ef4444"];
+  const COLORS = ["#6b7280", "#10b981", "#eab308", "#14b8a6", "#ef4444"];
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
@@ -53,21 +53,21 @@ export default function AnalyticsPage() {
       {/* Header section */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
+          <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
             Analytics Insights
           </h1>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-gray-400">
             Monitor conversion rates and optimize your active pipeline.
           </p>
         </div>
 
         {/* Date Filter selector */}
         <div className="flex gap-2 shrink-0">
-          <Calendar className="h-4.5 w-4.5 text-zinc-400 self-center" />
+          <Calendar className="h-4.5 w-4.5 text-gray-400 self-center" />
           <select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
-            className="rounded-lg border border-zinc-250 bg-white px-3 py-1.5 text-4xs font-semibold focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-white shadow-sm"
+            className="rounded-lg border border-graphite-border bg-graphite-surface px-3 py-1.5 text-4xs font-semibold focus:border-emerald-500 focus:outline-none text-white shadow-sm"
           >
             <option value="7">Last 7 Days</option>
             <option value="30">Last 30 Days</option>
@@ -77,13 +77,13 @@ export default function AnalyticsPage() {
       </div>
 
       {/* KEY AI-GENERATED INSIGHTS SECTION */}
-      <div className="rounded-xl border border-indigo-600/20 bg-indigo-500/5 p-6 dark:border-indigo-500/20 dark:bg-indigo-950/10 shadow-sm flex items-start gap-4">
-        <div className="rounded-lg bg-indigo-600 p-2.5 text-white shrink-0 shadow-md">
+      <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-6 shadow-sm flex items-start gap-4">
+        <div className="rounded-lg bg-emerald-600 p-2.5 text-white shrink-0 shadow-md">
           <Sparkles className="h-5 w-5 fill-current" />
         </div>
         <div>
-          <h3 className="text-xs font-bold text-indigo-900 dark:text-indigo-400 uppercase tracking-wide">AI Performance Insights</h3>
-          <p className="text-2xs text-zinc-700 dark:text-zinc-300 mt-2 leading-relaxed">
+          <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-wide">AI Performance Insights</h3>
+          <p className="text-2xs text-gray-300 mt-2 leading-relaxed">
             {data.insights}
           </p>
         </div>
@@ -93,36 +93,36 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Line Chart: Applications Over Time */}
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-850 dark:bg-zinc-900/35 shadow-sm">
-          <h3 className="text-xs font-bold text-zinc-900 dark:text-white border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-6">
+        <div className="rounded-xl border border-graphite-border bg-graphite-surface p-6 shadow-sm">
+          <h3 className="text-xs font-bold text-white border-b border-graphite-border pb-3 mb-6">
             Application Momentum
           </h3>
           <div className="h-64 w-full text-4xs">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data.applicationsOverTime}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" className="dark:hidden" />
-                <XAxis dataKey="date" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" allowDecimals={false} />
-                <Tooltip />
-                <Line type="monotone" dataKey="count" stroke="#6366f1" strokeWidth={3} activeDot={{ r: 6 }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#232a2d" />
+                <XAxis dataKey="date" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" allowDecimals={false} />
+                <Tooltip contentStyle={{ backgroundColor: "#151a1c", borderColor: "#232a2d", color: "#fff" }} />
+                <Line type="monotone" dataKey="count" stroke="#10b981" strokeWidth={3} activeDot={{ r: 6 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Bar Chart: Match Scores by Company */}
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-850 dark:bg-zinc-900/35 shadow-sm">
-          <h3 className="text-xs font-bold text-zinc-900 dark:text-white border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-6">
+        <div className="rounded-xl border border-graphite-border bg-graphite-surface p-6 shadow-sm">
+          <h3 className="text-xs font-bold text-white border-b border-graphite-border pb-3 mb-6">
             Match Scores by Target
           </h3>
           <div className="h-64 w-full text-4xs">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.companyMatchScores}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" className="dark:hidden" />
-                <XAxis dataKey="name" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" domain={[0, 100]} />
-                <Tooltip />
-                <Bar dataKey="score" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#232a2d" />
+                <XAxis dataKey="name" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" domain={[0, 100]} />
+                <Tooltip contentStyle={{ backgroundColor: "#151a1c", borderColor: "#232a2d", color: "#fff" }} />
+                <Bar dataKey="score" fill="#10b981" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -134,8 +134,8 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Donut Chart: Application Status */}
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-850 dark:bg-zinc-900/35 shadow-sm flex flex-col justify-between">
-          <h3 className="text-xs font-bold text-zinc-900 dark:text-white border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-4">
+        <div className="rounded-xl border border-graphite-border bg-graphite-surface p-6 shadow-sm flex flex-col justify-between">
+          <h3 className="text-xs font-bold text-white border-b border-graphite-border pb-3 mb-4">
             Pipeline Distribution
           </h3>
           <div className="h-48 w-full flex items-center justify-center">
@@ -154,12 +154,12 @@ export default function AnalyticsPage() {
                     <Cell key={`cell-${index}`} fill={entry.fill || COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip contentStyle={{ backgroundColor: "#151a1c", borderColor: "#232a2d", color: "#fff" }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
           {/* Custom legend list */}
-          <div className="grid grid-cols-3 gap-2 mt-4 text-4xs text-zinc-550 dark:text-zinc-400">
+          <div className="grid grid-cols-3 gap-2 mt-4 text-4xs text-gray-400">
             {data.statusBreakdown.map((item: any, idx: number) => (
               <div key={idx} className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.fill || COLORS[idx] }} />
@@ -170,8 +170,8 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Funnel Chart: Stage Conversion Rate */}
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-850 dark:bg-zinc-900/35 shadow-sm">
-          <h3 className="text-xs font-bold text-zinc-900 dark:text-white border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-6">
+        <div className="rounded-xl border border-graphite-border bg-graphite-surface p-6 shadow-sm">
+          <h3 className="text-xs font-bold text-white border-b border-graphite-border pb-3 mb-6">
             Conversion Funnel
           </h3>
           
@@ -181,12 +181,12 @@ export default function AnalyticsPage() {
               const ratio = maxVal > 0 ? (item.count / maxVal) * 100 : 0;
               return (
                 <div key={idx} className="space-y-1.5">
-                  <div className="flex justify-between font-semibold">
+                  <div className="flex justify-between font-semibold text-gray-300">
                     <span>{item.stage}</span>
                     <span>{item.count} applications ({Math.round(ratio)}%)</span>
                   </div>
-                  <div className="h-3 w-full rounded bg-zinc-150 dark:bg-zinc-800 overflow-hidden">
-                    <div className="h-full bg-indigo-500 rounded" style={{ width: `${ratio}%` }} />
+                  <div className="h-3 w-full rounded bg-graphite-base overflow-hidden border border-graphite-border">
+                    <div className="h-full bg-emerald-500 rounded" style={{ width: `${ratio}%` }} />
                   </div>
                 </div>
               );
@@ -195,17 +195,17 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Heatmap Activity Chart */}
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-850 dark:bg-zinc-900/35 shadow-sm">
-          <h3 className="text-xs font-bold text-zinc-900 dark:text-white border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-4">
+        <div className="rounded-xl border border-graphite-border bg-graphite-surface p-6 shadow-sm">
+          <h3 className="text-xs font-bold text-white border-b border-graphite-border pb-3 mb-4">
             Search Intensity Matrix
           </h3>
-          <p className="text-4xs text-zinc-500 mb-4 leading-normal">
+          <p className="text-4xs text-gray-400 mb-4 leading-normal">
             Application submission intensity based on day of week and hour range.
           </p>
 
           <div className="space-y-2.5">
             {/* Heatmap grid header */}
-            <div className="grid grid-cols-5 gap-1 text-center text-4xs font-bold text-zinc-400 uppercase tracking-wider pb-1">
+            <div className="grid grid-cols-5 gap-1 text-center text-4xs font-bold text-gray-500 uppercase tracking-wider pb-1">
               <div>Day</div>
               <div>Morning</div>
               <div>Noon</div>
@@ -214,17 +214,16 @@ export default function AnalyticsPage() {
             </div>
 
             {data.heatmapData.map((dayData: any, idx: number) => {
-              // Helper to assign BG color based on weight intensity
               const getCellColor = (val: number) => {
-                if (val === 0) return "bg-zinc-100 dark:bg-zinc-900";
-                if (val <= 1) return "bg-indigo-500/20 text-indigo-600";
-                if (val <= 3) return "bg-indigo-500/50 text-white";
-                return "bg-indigo-600 text-white";
+                if (val === 0) return "bg-graphite-base text-gray-600";
+                if (val <= 1) return "bg-emerald-500/20 text-emerald-400";
+                if (val <= 3) return "bg-emerald-500/40 text-emerald-300";
+                return "bg-emerald-600 text-white";
               };
 
               return (
                 <div key={idx} className="grid grid-cols-5 gap-1.5 text-center text-3xs items-center font-medium">
-                  <div className="text-4xs text-zinc-400 font-bold text-left">{dayData.day}</div>
+                  <div className="text-4xs text-gray-400 font-bold text-left">{dayData.day}</div>
                   <div className={`rounded py-1.5 font-bold ${getCellColor(dayData.morning)}`}>{dayData.morning}</div>
                   <div className={`rounded py-1.5 font-bold ${getCellColor(dayData.afternoon)}`}>{dayData.afternoon}</div>
                   <div className={`rounded py-1.5 font-bold ${getCellColor(dayData.evening)}`}>{dayData.evening}</div>

@@ -113,10 +113,10 @@ export function CustomUploader({ onUploadComplete, className = "" }: CustomUploa
       onDragLeave={handleDrag}
       onDrop={handleDrop}
       onClick={status === "idle" ? onButtonClick : undefined}
-      className={`relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 text-center cursor-pointer transition-all duration-250 ${
+      className={`relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 text-center cursor-pointer transition-all duration-200 ${
         isDragActive
-          ? "border-indigo-500 bg-indigo-50/50 dark:border-indigo-400 dark:bg-indigo-500/5 scale-[0.99]"
-          : "border-zinc-200 bg-zinc-50 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950/40 dark:hover:bg-zinc-950/80"
+          ? "border-emerald-500 bg-emerald-500/10 scale-[0.99]"
+          : "border-graphite-border bg-graphite-base hover:border-emerald-500/50 hover:bg-graphite-surfaceHover"
       } ${status !== "idle" ? "pointer-events-none" : ""} ${className}`}
     >
       <input
@@ -129,14 +129,14 @@ export function CustomUploader({ onUploadComplete, className = "" }: CustomUploa
 
       {status === "idle" && (
         <div className="space-y-3">
-          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-500 dark:text-indigo-400">
-            <UploadCloud className="h-5 w-5 animate-bounce-slow" />
+          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+            <UploadCloud className="h-5 w-5" />
           </div>
           <div>
-            <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
+            <p className="text-xs font-semibold text-gray-200">
               Drag & drop your resume PDF or Click to browse
             </p>
-            <p className="text-4xs text-zinc-400 dark:text-zinc-500 mt-1 uppercase tracking-wider font-semibold">
+            <p className="text-4xs text-gray-400 mt-1 uppercase tracking-wider font-semibold">
               Supports Text-based PDF / TXT (Max 4MB)
             </p>
           </div>
@@ -145,36 +145,36 @@ export function CustomUploader({ onUploadComplete, className = "" }: CustomUploa
 
       {status === "parsing" && (
         <div className="space-y-3 py-1">
-          <Loader2 className="mx-auto h-8 w-8 animate-spin text-indigo-500" />
+          <Loader2 className="mx-auto h-8 w-8 animate-spin text-emerald-400" />
           <div>
-            <p className="text-xs font-bold text-zinc-800 dark:text-zinc-200">Reading PDF Content...</p>
-            <p className="text-3xs text-zinc-400 mt-0.5">Extracting keywords, experiences, and details</p>
+            <p className="text-xs font-bold text-gray-200">Reading PDF Content...</p>
+            <p className="text-3xs text-gray-400 mt-0.5">Extracting keywords, experiences, and details</p>
           </div>
-          <div className="w-48 bg-zinc-200 dark:bg-zinc-800 rounded-full h-1.5 mx-auto overflow-hidden">
-            <div className="bg-indigo-500 h-1.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+          <div className="w-48 bg-graphite-border rounded-full h-1.5 mx-auto overflow-hidden">
+            <div className="bg-emerald-500 h-1.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         </div>
       )}
 
       {status === "saving" && (
         <div className="space-y-3 py-1">
-          <Loader2 className="mx-auto h-8 w-8 animate-spin text-indigo-500" />
+          <Loader2 className="mx-auto h-8 w-8 animate-spin text-emerald-400" />
           <div>
-            <p className="text-xs font-bold text-zinc-800 dark:text-zinc-200">Saving to Database...</p>
-            <p className="text-3xs text-zinc-400 mt-0.5">Storing structured resume for ATS analysis</p>
+            <p className="text-xs font-bold text-gray-200">Saving to Database...</p>
+            <p className="text-3xs text-gray-400 mt-0.5">Storing structured resume for ATS analysis</p>
           </div>
-          <div className="w-48 bg-zinc-200 dark:bg-zinc-800 rounded-full h-1.5 mx-auto overflow-hidden">
-            <div className="bg-indigo-500 h-1.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+          <div className="w-48 bg-graphite-border rounded-full h-1.5 mx-auto overflow-hidden">
+            <div className="bg-emerald-500 h-1.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         </div>
       )}
 
       {status === "success" && (
         <div className="space-y-2 py-1 animate-pulse">
-          <CheckCircle className="mx-auto h-8 w-8 text-emerald-500" />
+          <CheckCircle className="mx-auto h-8 w-8 text-emerald-400" />
           <div>
-            <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Processing Complete!</p>
-            <p className="text-3xs text-zinc-400 mt-0.5">Redirecting to analysis dashboard...</p>
+            <p className="text-xs font-bold text-emerald-400">Processing Complete!</p>
+            <p className="text-3xs text-gray-400 mt-0.5">Ready for analysis...</p>
           </div>
         </div>
       )}
